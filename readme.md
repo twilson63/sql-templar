@@ -9,24 +9,27 @@ Sql-Templar is a small abstraction over node-mysql that provides a similar api t
 /sql/customers.sql
 
 ``` sql
-select * from customers where userId = ?
+select * from customers where name like ?
 ```
 
 /index.js
 
 ``` javascript
-var st = require('sql-templar')({
+var st = require('../')({
   templates: {
     dir: __dirname + '/sql',
     ext: 'sql'
   }, db: {
-    host: localhost,
-    port: 3306
+    host: 'localhost',
+    port: 3306,
+    database: 'test',
+    user: 'root'
   }
 });
 
-st('customers', [100], function(err, rows) {
-  console.log(rows);
+st('customers', ['A%'], function(err, rows) {
+  if (err) { console.log(err); }
+  console.log(rows); 
 });
 ```
 

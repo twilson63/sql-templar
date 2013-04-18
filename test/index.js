@@ -1,13 +1,16 @@
-var st = require('sql-templar')({
+var st = require('../')({
   templates: {
     dir: __dirname + '/sql',
     ext: 'sql'
   }, db: {
-    host: localhost,
-    port: 3306
+    host: 'localhost',
+    port: 3306,
+    database: 'test',
+    user: 'root'
   }
 });
 
-st('customers', [100], function(err, rows) {
-  console.log(rows);
+st('customers', ['A%'], function(err, rows) {
+  if (err) { console.log(err); }
+  console.log(rows); 
 });
