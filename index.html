@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Sql-templar by twilson63</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Sql-templar</h1>
+        <h2>A sql template engine on a crusade</h2>
+        <a href="https://github.com/twilson63/sql-templar" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>Sql Templar</h1>
+
+<p>An alternative crusade to the knights of ORM Land.</p>
+
+<p>Sql-Templar is a small abstraction over node-mysql that provides a similar api to that of rendering html templates, but for sql files.  This gets the sql files out of concatenated strings and allows you to place them in a directory much like you place you jade or ejs templates for html.  Here is some sample usage code:</p>
+
+<h1>Usage</h1>
+
+<p>/sql/customers.sql</p>
+
+<div class="highlight"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">customers</span> <span class="k">where</span> <span class="n">name</span> <span class="k">like</span> <span class="o">?</span>
+</pre></div>
+
+<p>/index.js</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">st</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../'</span><span class="p">)({</span>
+  <span class="nx">templates</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">dir</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/sql'</span><span class="p">,</span>
+    <span class="nx">ext</span><span class="o">:</span> <span class="s1">'sql'</span>
+  <span class="p">},</span> <span class="nx">db</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">host</span><span class="o">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="mi">3306</span><span class="p">,</span>
+    <span class="nx">database</span><span class="o">:</span> <span class="s1">'test'</span><span class="p">,</span>
+    <span class="nx">user</span><span class="o">:</span> <span class="s1">'root'</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">st</span><span class="p">(</span><span class="s1">'customers'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'A%'</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">rows</span><span class="p">);</span> 
+<span class="p">});</span>
+</pre></div>
+
+<div class="highlight"><pre>node index.js
+</pre></div>
+
+<p>Just like you use jade or ejs templates with sql-templar you can manage your sql in template files and utilize all of the conventions and sugar provided by node-mysql to perform proper escaping, etc.  See the node-mysql readme for more details on the pattern matching.</p>
+
+<h2>Install</h2>
+
+<pre><code>npm install sql-templar
+</code></pre>
+
+<h2>Contributing</h2>
+
+<p>Contributions are welcome, the goal of the project is to simply provide a template like engine on top of node-mysql, any contributions that keep within the context of this goal will be merged.</p>
+
+<h2>LICENSE</h2>
+
+<p>MIT</p>
+
+<h2>Thanks</h2>
+
+<p>Thanks to Felixge and all the node-mysql contributors
+Thanks to Ryan Dahl, Issacs and all the NodeJS Contributors and Community!</p>
+
+<p>Enjoy! </p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/twilson63/sql-templar/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/twilson63/sql-templar/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/twilson63/sql-templar"></a> is maintained by <a href="https://github.com/twilson63">twilson63</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
