@@ -15,7 +15,7 @@ select * from customers where name like ?
 /index.js
 
 ``` javascript
-var st = require('../')({
+var st = require('sql-templar')({
   templates: {
     dir: __dirname + '/sql',
     ext: 'sql'

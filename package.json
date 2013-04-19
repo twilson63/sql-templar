@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/twilson63/sql-templar.git"
+  },
   "keywords": [
     "Sql",
     "Template",
@@ -18,5 +21,10 @@
   "dependencies": {
     "underscore": "~1.4.4",
     "mysql": "~2.0.0-alpha7"
-  }
+  },
+  "gitHead": "36fce5e8985f1cbd78b41709e5ea2642c6c57049",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
 }
