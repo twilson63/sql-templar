@@ -3,6 +3,7 @@ var fs = require('fs');
 var _ = require('underscore');
 
 var templates = {};
+var conn;
 
 module.exports = function(config) {
   if (!config.db) { throw new Error('database configuration info is required!'); }
