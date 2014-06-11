@@ -1,5 +1,7 @@
 # Sql Templar
 
+[![build status](https://secure.travis-ci.org/twilson63/sql-templar.png)](http://travis-ci.org/twilson63/sql-templar)
+
 An alternative crusade to the knights of ORM Land.
 
 Sql-Templar is a small abstraction over node-mysql that provides a similar api to that of rendering html templates, but for sql files.  This gets the sql files out of concatenated strings and allows you to place them in a directory much like you place you jade or ejs templates for html.  Here is some sample usage code:
@@ -29,7 +31,7 @@ var st = require('sql-templar')({
 
 st('customers', ['A%'], function(err, rows) {
   if (err) { console.log(err); }
-  console.log(rows); 
+  console.log(rows);
 });
 ```
 
@@ -58,4 +60,4 @@ MIT
 Thanks to Felixge and all the node-mysql contributors
 Thanks to Ryan Dahl, Issacs and all the NodeJS Contributors and Community!
 
-Enjoy! 
+Enjoy!

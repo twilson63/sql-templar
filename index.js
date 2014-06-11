@@ -13,7 +13,7 @@ module.exports = function(config) {
   if (config.templates && config.templates.ext) { ext =  config.templates.ext }
 
   // load templates
-  var files = _(fs.readdirSync(dir)).filter(function (file) { 
+  var files = _(fs.readdirSync(dir)).filter(function (file) {
     return (new RegExp('.' + ext + '$')).test(file);
   });
 
@@ -36,12 +36,14 @@ module.exports = function(config) {
     if (params) {
       conn.query(templates[name], params, cb);
     } else {
-    conn.query(templates[name], cb);
+      conn.query(templates[name], cb);
     }
   }
 }
 
 // close connection on exit()
 process.on('exit', function() {
-  conn.end();
+  if (conn) {
+    conn.end();
+  }
 });
