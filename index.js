@@ -31,6 +31,17 @@ module.exports = function(config) {
       cb = params;
       params = null;
     }
+
+    if (_(params).isObject())) {
+      // if object build where clause
+      params = [_(params).map(function(v, k) {
+        return k + "= '" + v.toString() + "'";
+      }).join(' AND ')];
+    }
+
+    if (params && !_(params).isArray()) {
+      return cb(new Error('sql-templar: params must be an array or object'));
+    }
     // check if template exists
     if (!templates[name]) { return cb(new Error('sql-templar: Template not found!')); }
 
