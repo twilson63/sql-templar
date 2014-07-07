@@ -52,7 +52,6 @@ module.exports = function(config) {
         return k + " = '" + v.toString() + "'";
       }).join(' AND ')];
       sql = templates[name].replace('?', params);
-      console.log(sql);
       conn.query(sql, cb);
     } else if (params && _(params).isArray()) {
       conn.query(templates[name], params, cb);
