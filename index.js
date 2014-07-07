@@ -32,20 +32,29 @@ module.exports = function(config) {
       params = null;
     }
 
-    if (_(params).isObject())) {
-      // if object build where clause
-      params = [_(params).map(function(v, k) {
-        return k + "= '" + v.toString() + "'";
-      }).join(' AND ')];
-    }
-
-    if (params && !_(params).isArray()) {
-      return cb(new Error('sql-templar: params must be an array or object'));
-    }
+    // if (_(params).isObject()) {
+    //   // if object build where clause
+    //   params = [_(params).map(function(v, k) {
+    //     return k + "= '" + v.toString() + "'";
+    //   }).join(' AND ')];
+    // }
+    //
+    // if (params && !_(params).isArray()) {
+    //   return cb(new Error('sql-templar: params must be an array or object'));
+    // }
     // check if template exists
     if (!templates[name]) { return cb(new Error('sql-templar: Template not found!')); }
 
-    if (params) {
+    if (params && _(params).isObject() && !_(params).isArray()) {
+      // assume ? in sql string
+      // build where and replace ? with where
+      params = [_(params).map(function(v, k) {
+        return k + " = '" + v.toString() + "'";
+      }).join(' AND ')];
+      sql = templates[name].replace('?', params);
+      console.log(sql);
+      conn.query(sql, cb);
+    } else if (params && _(params).isArray()) {
       conn.query(templates[name], params, cb);
     } else {
       conn.query(templates[name], cb);
