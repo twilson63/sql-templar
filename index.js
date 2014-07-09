@@ -3,7 +3,6 @@ var fs = require('fs');
 var _ = require('underscore');
 
 var templates = {};
-var conn;
 
 module.exports = function(config) {
   if (!config.db) { throw new Error('database configuration info is required!'); }
@@ -21,12 +20,13 @@ module.exports = function(config) {
   _(files).each(function(file) {
     templates[file.split('.').shift()] = fs.readFileSync(dir + '/' + file).toString();
   });
-  // connect to mysql
-  conn = mysql.createConnection(config.db);
-  conn.connect();
 
   // perform query
   return function(name, params, cb) {
+    // connect to mysql
+    var conn = mysql.createConnection(config.db);
+    conn.connect();
+
     if (typeof params === 'function') {
       cb = params;
       params = null;
@@ -58,12 +58,13 @@ module.exports = function(config) {
     } else {
       conn.query(templates[name], cb);
     }
+
+    // close connection on exit()
+    process.on('exit', function() {
+      if (conn) {
+        conn.end();
+      }
+    });
+
   }
 }
-
-// close connection on exit()
-process.on('exit', function() {
-  if (conn) {
-    conn.end();
-  }
-});
