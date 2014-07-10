@@ -29,7 +29,7 @@ var st = require('sql-templar')({
   }
 });
 
-st('customers', ['A%'], function(err, rows) {
+st.exec('customers', ['A%'], function(err, rows) {
   if (err) { console.log(err); }
   console.log(rows);
 });
@@ -54,6 +54,10 @@ Contributions are welcome, the goal of the project is to simply provide a templa
 ## LICENSE
 
 MIT
+
+## ROADMAP
+
+* Would like to offer support for other SQL Drivers, SQLLite, Postgres, etc.
 
 ## Thanks
 

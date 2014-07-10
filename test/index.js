@@ -27,7 +27,7 @@ test('sql-templar build where clause', function(t) {
       }
   });
 
-  st('customers', {patient_id: 1, priority: 'Beep'}, function(err, rows) {
+  st.exec('customers', {patient_id: 1, priority: 'Beep'}, function(err, rows) {
     t.deepEquals(rows, [], 'successfully return rows');
     t.end();
   });
@@ -58,7 +58,7 @@ test('sql-templar should read sql file and execute query', function (t) {
       }
   });
 
-  st('customers', ['A%'], function(err, rows) {
+  st.exec('customers', ['A%'], function(err, rows) {
     t.deepEquals(rows, [{foo: 'bar'}], 'successfully return rows');
     t.end();
   });

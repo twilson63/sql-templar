@@ -20,12 +20,12 @@ module.exports = function(config) {
   _(files).each(function(file) {
     templates[file.split('.').shift()] = fs.readFileSync(dir + '/' + file).toString();
   });
+  // connect to mysql
+  var conn = mysql.createConnection(config.db);
+  conn.connect();
 
   // perform query
-  return function(name, params, cb) {
-    // connect to mysql
-    var conn = mysql.createConnection(config.db);
-    conn.connect();
+  var exec = function(name, params, cb) {
 
     if (typeof params === 'function') {
       cb = params;
@@ -65,6 +65,9 @@ module.exports = function(config) {
         conn.end();
       }
     });
+  };
 
-  }
+  return Object.freeze({
+    exec: exec
+  });
 }
