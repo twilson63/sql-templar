@@ -59,13 +59,14 @@ module.exports = function(config) {
       conn.query(templates[name], cb);
     }
 
-    // close connection on exit()
-    process.on('exit', function() {
-      if (conn) {
-        conn.end();
-      }
-    });
   };
+
+  // close connection on exit()
+  process.on('exit', function() {
+    if (conn) {
+      conn.end();
+    }
+  });
 
   return Object.freeze({
     exec: exec
