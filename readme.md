@@ -41,6 +41,26 @@ node index.js
 
 Just like you use jade or ejs templates with sql-templar you can manage your sql in template files and utilize all of the conventions and sugar provided by node-mysql to perform proper escaping, etc.  See the node-mysql readme for more details on the pattern matching.
 
+### Example with to build where clause with sql templar
+
+/sql/customers-where.sql
+``` sql
+select * from customers where ?;
+```
+Then call st.exec like this:
+
+``` javascript
+st.exec('customers-where', {patient_id: 1, priority: 'Beep'}, function(err, rows) {
+  if (err) { console.log(err); }
+  console.log(rows);
+});
+```
+This will make the customer-where.sql query look like this:
+
+```
+select * from customers where patient_id = '1' AND priority = 'Beep';
+```
+
 ## Install
 
 ```
