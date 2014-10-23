@@ -10,9 +10,10 @@ module.exports = function(config) {
   if (!config.db) { throw new Error('database configuration info is required!'); }
   var dir = './sql';
   var ext = 'sql';
-
+  var timeout = ONE_MINUTE;
   if (config.templates && config.templates.dir) { dir =  config.templates.dir }
   if (config.templates && config.templates.ext) { ext =  config.templates.ext }
+  if (config.timeout) { timeout = config.timeout; }
 
   // load templates
   var files = _(fs.readdirSync(dir)).filter(function (file) {
@@ -24,6 +25,7 @@ module.exports = function(config) {
   });
 
   var conn;
+  // Connection routine that will handle disconnects
   function handleDisconnect(retry) {
     if(retry) {
       conn.destroy();
@@ -40,10 +42,10 @@ module.exports = function(config) {
       conn = mysql.createConnection(config.db);
       conn.connect(function(err) {
         if(err) {
-          log('Error with connnection to DB, try to reconnect in one minute: ' + err);
+          log('Error with connnection to DB, try to reconnect in ' + timeout + ' milliseconds: ' + err);
           setTimeout(function() {
             handleDisconnect(true); 
-          }, ONE_MINUTE);
+          }, timeout);
         } else {
           log('Connected to DB Successfully');
         }
@@ -57,14 +59,6 @@ module.exports = function(config) {
   }
 
   handleDisconnect(false);
-  // connect to mysql
-  //var conn = mysql.createConnection(config.db);
-  //conn.on('error', function(err) {
-  //  console.log(err.code);
-  //  // reconnect routine here.
-  //  conn.connect();
-  //});
-  //conn.connect();
 
   // perform query
   var exec = function(name, params, cb) {

@@ -8,6 +8,7 @@ test('sql-templar build where clause', function(t) {
     createConnection: function () {
       return {
         connect: function() {},
+        on: function() {}, 
         query: function(sql, cb) {
           t.equals(
             sql, 
@@ -44,6 +45,7 @@ test('sql-templar should read sql file and execute query', function (t) {
     createConnection: function () {
       return {
         connect: function() {},
+        on: function() {},
         query: function(sql, params, cb) {
           cb(null, [{foo: 'bar'}]);
         },
