@@ -1,6 +1,8 @@
 var mysql = require('mysql');
 var fs = require('fs');
 var _ = require('underscore');
+var log = console.log;
+var ONE_MINUTE = 60000
 
 var templates = {};
 
@@ -20,9 +22,49 @@ module.exports = function(config) {
   _(files).each(function(file) {
     templates[file.split('.').shift()] = fs.readFileSync(dir + '/' + file).toString();
   });
+
+  var conn;
+  function handleDisconnect(retry) {
+    if(retry) {
+      conn.destroy();
+      conn = mysql.createConnection(config.db);
+      conn.connect(function(err) {
+        if(err) {
+          log('Error reconnecting to DB: ' + err);
+          throw new Error('DB is down');
+        } else  {
+          log('Reconnected to DB successfully');
+        }
+      });
+    } else {
+      conn = mysql.createConnection(config.db);
+      conn.connect(function(err) {
+        if(err) {
+          log('Error with connnection to DB, try to reconnect in one minute: ' + err);
+          setTimeout(function() {
+            handleDisconnect(true); 
+          }, ONE_MINUTE);
+        } else {
+          log('Connected to DB Successfully');
+        }
+      });
+    }
+
+    conn.on('error', function(err) {
+      log('DB Connection lost: ' + err);
+      handleDisconnect(false);
+    });
+  }
+
+  handleDisconnect(false);
   // connect to mysql
-  var conn = mysql.createConnection(config.db);
-  conn.connect();
+  //var conn = mysql.createConnection(config.db);
+  //conn.on('error', function(err) {
+  //  console.log(err.code);
+  //  // reconnect routine here.
+  //  conn.connect();
+  //});
+  //conn.connect();
 
   // perform query
   var exec = function(name, params, cb) {

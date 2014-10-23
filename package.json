@@ -27,6 +27,7 @@
     "test": "test"
   },
   "devDependencies": {
+    "parse-db-url": "0.0.0",
     "rewire": "^2.0.1",
     "tap": "^0.4.11"
   }
