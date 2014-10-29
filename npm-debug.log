@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'version',
+1 verbose cli   'minor' ]
+2 info using npm@2.0.0
+3 info using node@v0.11.14
+4 verbose stack Error: Command failed: git tag v0.1.0 -am 0.1.0
+4 verbose stack fatal: tag 'v0.1.0' already exists
+4 verbose stack
+4 verbose stack     at ChildProcess.exithandler (child_process.js:732:12)
+4 verbose stack     at ChildProcess.emit (events.js:110:17)
+4 verbose stack     at maybeClose (child_process.js:1000:16)
+4 verbose stack     at Socket.<anonymous> (child_process.js:1168:11)
+4 verbose stack     at Socket.emit (events.js:107:17)
+4 verbose stack     at Pipe.close (net.js:461:12)
+5 verbose cwd /home/twilson63/code/sql-templar
+6 error Linux 3.13.0-36-generic
+7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "version" "minor"
+8 error node v0.11.14
+9 error npm  v2.0.0
+10 error code 128
+11 error Command failed: git tag v0.1.0 -am 0.1.0
+11 error fatal: tag 'v0.1.0' already exists
+12 error If you need help, you may report this error at:
+12 error     <http://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]
