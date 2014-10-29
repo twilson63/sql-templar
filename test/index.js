@@ -5,20 +5,23 @@ var sqlTemplar = rewire('../');
 
 test('sql-templar build where clause', function(t) {
   sqlTemplar.__set__('mysql', {
-    createConnection: function () {
+    createPool: function () {
       return {
-        connect: function() {},
-        on: function() {}, 
-        query: function(sql, cb) {
-          t.equals(
-            sql, 
-            'select * from customers where patient_id = \'1\' AND priority = \'Beep\';',
-            'should build sql where clause'
-          );
-          cb(null, []);
+        getConnection: function(fn) {
+          fn(null, {
+            release: function() {},
+            query:  function(sql, cb) {
+              t.equals(sql, 
+               'select * from customers where patient_id = \'1\' AND priority = \'Beep\';',
+               'should build sql where clause'
+              );
+              cb(null, []);
+            }
+          });
         },
+        on: function() {}, 
         end: function() {}
-      }
+      };
     }
   });
 
@@ -38,19 +41,24 @@ test('sql-templar build where clause', function(t) {
     t.end();
   });
 
-})
+});
 
 test('sql-templar should read sql file and execute query', function (t) {
-  sqlTemplar.__set__('mysql', {
-    createConnection: function () {
+   sqlTemplar.__set__('mysql', {
+    createPool: function () {
       return {
-        connect: function() {},
-        on: function() {},
-        query: function(sql, params, cb) {
-          cb(null, [{foo: 'bar'}]);
+        getConnection: function(fn) {
+          fn(null, {
+            release: function() {},
+            query:  function(sql, criteria, cb) {
+              console.log(cb);
+              cb(null, [{foo: 'bar'}]);
+            }
+          });
         },
+        on: function() {}, 
         end: function() {}
-      }
+      };
     }
   });
 
@@ -70,3 +78,4 @@ test('sql-templar should read sql file and execute query', function (t) {
     t.end();
   });
 });
+
