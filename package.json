@@ -1,6 +1,6 @@
 {
   "name": "sql-templar",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A sql template module that takes a template based approach to mysql queries",
   "main": "index.js",
   "scripts": {
