@@ -1,72 +1,26 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/twilson63/.nvm/v0.10.32/bin/node',
-1 verbose cli   '/home/twilson63/.nvm/v0.10.32/bin/npm',
-1 verbose cli   'publish' ]
-2 info using npm@1.4.28
-3 info using node@v0.10.32
-4 verbose publish [ '.' ]
-5 verbose cache add [ '.', null ]
-6 verbose cache add name=undefined spec="." args=[".",null]
-7 verbose parsed url { protocol: null,
-7 verbose parsed url   slashes: null,
-7 verbose parsed url   auth: null,
-7 verbose parsed url   host: null,
-7 verbose parsed url   port: null,
-7 verbose parsed url   hostname: null,
-7 verbose parsed url   hash: null,
-7 verbose parsed url   search: null,
-7 verbose parsed url   query: null,
-7 verbose parsed url   pathname: '.',
-7 verbose parsed url   path: '.',
-7 verbose parsed url   href: '.' }
-8 silly lockFile 3a52ce78- .
-9 verbose lock . /home/twilson63/.npm/3a52ce78-.lock
-10 verbose tar pack [ '/home/twilson63/.npm/sql-templar/0.2.0/package.tgz', '.' ]
-11 verbose tarball /home/twilson63/.npm/sql-templar/0.2.0/package.tgz
-12 verbose folder .
-13 info prepublish sql-templar@0.2.0
-14 silly lockFile 1f1177db-tar tar://.
-15 verbose lock tar://. /home/twilson63/.npm/1f1177db-tar.lock
-16 silly lockFile a63d3f06-pm-sql-templar-0-2-0-package-tgz tar:///home/twilson63/.npm/sql-templar/0.2.0/package.tgz
-17 verbose lock tar:///home/twilson63/.npm/sql-templar/0.2.0/package.tgz /home/twilson63/.npm/a63d3f06-pm-sql-templar-0-2-0-package-tgz.lock
-18 silly lockFile 1f1177db-tar tar://.
-19 silly lockFile 1f1177db-tar tar://.
-20 silly lockFile a63d3f06-pm-sql-templar-0-2-0-package-tgz tar:///home/twilson63/.npm/sql-templar/0.2.0/package.tgz
-21 silly lockFile a63d3f06-pm-sql-templar-0-2-0-package-tgz tar:///home/twilson63/.npm/sql-templar/0.2.0/package.tgz
-22 silly lockFile 0422f8d2-63-npm-sql-templar-0-2-0-package /home/twilson63/.npm/sql-templar/0.2.0/package
-23 verbose lock /home/twilson63/.npm/sql-templar/0.2.0/package /home/twilson63/.npm/0422f8d2-63-npm-sql-templar-0-2-0-package.lock
-24 silly lockFile 0422f8d2-63-npm-sql-templar-0-2-0-package /home/twilson63/.npm/sql-templar/0.2.0/package
-25 silly lockFile 0422f8d2-63-npm-sql-templar-0-2-0-package /home/twilson63/.npm/sql-templar/0.2.0/package
-26 silly lockFile 3a52ce78- .
-27 silly lockFile 3a52ce78- .
-28 silly publish { name: 'sql-templar',
-28 silly publish   version: '0.2.0',
-28 silly publish   description: 'A sql template module that takes a template based approach to mysql queries',
-28 silly publish   main: 'index.js',
-28 silly publish   scripts: { test: 'tap test' },
-28 silly publish   repository:
-28 silly publish    { type: 'git',
-28 silly publish      url: 'git://github.com/twilson63/sql-templar.git' },
-28 silly publish   keywords: [ 'Sql', 'Template', 'Engine' ],
-28 silly publish   author: { name: 'Tom' },
-28 silly publish   license: 'MIT',
-28 silly publish   readmeFilename: 'readme.md',
-28 silly publish   dependencies: { underscore: '~1.4.4', mysql: '~2.0.0-alpha7' },
-28 silly publish   gitHead: '36fce5e8985f1cbd78b41709e5ea2642c6c57049',
-28 silly publish   directories: { test: 'test' },
-28 silly publish   devDependencies: { 'parse-db-url': '0.0.0', rewire: '^2.0.1', tap: '^0.4.11' },
-28 silly publish   readme: '# Sql Templar\n\n[![build status](https://secure.travis-ci.org/twilson63/sql-templar.png)](http://travis-ci.org/twilson63/sql-templar)\n\nAn alternative crusade to the knights of ORM Land.\n\nSql-Templar is a small abstraction over node-mysql that provides a similar api to that of rendering html templates, but for sql files.  This gets the sql files out of concatenated strings and allows you to place them in a directory much like you place you jade or ejs templates for html.  Here is some sample usage code:\n\n# Usage\n\n/sql/customers.sql\n\n``` sql\nselect * from customers where name like ?\n```\n\n/index.js\n\n``` javascript\nvar st = require(\'sql-templar\')({\n  templates: {\n    dir: __dirname + \'/sql\',\n    ext: \'sql\'\n  }, db: {\n    host: \'localhost\',\n    port: 3306,\n    database: \'test\',\n    user: \'root\'\n  }\n});\n\nst.exec(\'customers\', [\'A%\'], function(err, rows) {\n  if (err) { console.log(err); }\n  console.log(rows);\n});\n```\n\n``` sh\nnode index.js\n```\n\nJust like you use jade or ejs templates with sql-templar you can manage your sql in template files and utilize all of the conventions and sugar provided by node-mysql to perform proper escaping, etc.  See the node-mysql readme for more details on the pattern matching.\n\n### Example with to build where clause with sql templar\n\n/sql/customers-where.sql\n``` sql\nselect * from customers where ?;\n```\nThen call st.exec like this:\n\n``` javascript\nst.exec(\'customers-where\', {patient_id: 1, priority: \'Beep\'}, function(err, rows) {\n  if (err) { console.log(err); }\n  console.log(rows);\n});\n```\nThis will make the customer-where.sql query look like this:\n\n```\nselect * from customers where patient_id = \'1\' AND priority = \'Beep\';\n```\n\n## Install\n\n```\nnpm install sql-templar\n```\n\n## Contributing\n\nContributions are welcome, the goal of the project is to simply provide a template like engine on top of node-mysql, any contributions that keep within the context of this goal will be merged.\n\n## LICENSE\n\nMIT\n\n## ROADMAP\n\n* Would like to offer support for other SQL Drivers, SQLLite, Postgres, etc.\n\n## Thanks\n\nThanks to Felixge and all the node-mysql contributors\nThanks to Ryan Dahl, Issacs and all the NodeJS Contributors and Community!\n\nEnjoy!\n',
-28 silly publish   bugs: { url: 'https://github.com/twilson63/sql-templar/issues' },
-28 silly publish   homepage: 'https://github.com/twilson63/sql-templar',
-28 silly publish   _id: 'sql-templar@0.2.0',
-28 silly publish   _shasum: '16656c67b162ca09dd767faa73dd2b347ca8e97e',
-28 silly publish   _from: '.' }
-29 error need auth auth and email required for publishing
-29 error need auth You need to authorize this machine using `npm adduser`
-30 error System Linux 3.13.0-36-generic
-31 error command "/home/twilson63/.nvm/v0.10.32/bin/node" "/home/twilson63/.nvm/v0.10.32/bin/npm" "publish"
-32 error cwd /home/twilson63/code/sql-templar
-33 error node -v v0.10.32
-34 error npm -v 1.4.28
-35 error code ENEEDAUTH
-36 verbose exit [ 1, true ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'version', 'patch' ]
+2 info using npm@2.1.11
+3 info using node@v0.10.33
+4 info git [ 'status', '--porcelain' ]
+5 verbose stack Error: Git working directory not clean.
+5 verbose stack D npm-debug.log
+5 verbose stack M package.json
+5 verbose stack     at /usr/local/lib/node_modules/npm/lib/version.js:123:33
+5 verbose stack     at ChildProcess.exithandler (child_process.js:646:7)
+5 verbose stack     at ChildProcess.emit (events.js:98:17)
+5 verbose stack     at maybeClose (child_process.js:756:16)
+5 verbose stack     at Socket.<anonymous> (child_process.js:969:11)
+5 verbose stack     at Socket.emit (events.js:95:17)
+5 verbose stack     at Pipe.close (net.js:465:12)
+6 verbose cwd /Users/twilson631/code/sql-templar
+7 error Darwin 14.0.0
+8 error argv "node" "/usr/local/bin/npm" "version" "patch"
+9 error node v0.10.33
+10 error npm  v2.1.11
+11 error Git working directory not clean.
+11 error D npm-debug.log
+11 error M package.json
+12 error If you need help, you may report this error at:
+12 error     <http://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]
