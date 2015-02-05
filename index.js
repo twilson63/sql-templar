@@ -59,10 +59,12 @@ module.exports = function(config) {
       }
     });
    
-  };    
- 
+  };  
+
+  process.setMaxListeners(100);  
+
   // close connection on exit()
-  process.on('exit', function() {
+  process.once('exit', function() {
     if (pool) {
       pool.end();
     }
@@ -72,3 +74,4 @@ module.exports = function(config) {
     exec: exec
   });
 };
+
