@@ -33,6 +33,7 @@ module.exports = function(config) {
   // perform query
   var exec = function(name, params, cb) {
     pool.getConnection(function(err, conn) {
+      if(err) { return cb(err); }
       if (typeof params === 'function') {
         cb = params;
         params = null;

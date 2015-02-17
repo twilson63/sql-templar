@@ -79,3 +79,33 @@ test('sql-templar should read sql file and execute query', function (t) {
   });
 });
 
+test('sql-templar should error when trying to on getConnection error', function (t) {
+   sqlTemplar.__set__('mysql', {
+    createPool: function () {
+      return {
+        getConnection: function(fn) {
+          fn({ msg: 'foo error' });
+        },
+        on: function() {}, 
+        end: function() {}
+      };
+    }
+  });
+
+  var st = sqlTemplar({
+      templates: {
+        dir: __dirname + '/sql',
+        ext: 'sql'
+      },
+      db: {
+        host: 'localhost',
+        database: 'test',
+      }
+  });
+
+  st.exec('customers', ['A%'], function(err, rows) {
+    t.equals(err.msg, 'foo error', 'should pass out error');
+    t.end();
+  });
+});
+
