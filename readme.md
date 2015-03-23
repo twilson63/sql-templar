@@ -61,6 +61,93 @@ This will make the customer-where.sql query look like this:
 select * from customers where patient_id = '1' AND priority = 'Beep';
 ```
 
+### Another example with to build where clause with sql templar
+
+/sql/customers-where.sql
+``` sql
+select * from customers where ?;
+```
+Then call st.exec like this:
+
+``` javascript
+st.exec('customers-where', {'where': {patient_id: 1, created_at: {'$gt': '2015-02-27 18:37:57'}}}, function(err, rows) {
+  if (err) { console.log(err); }
+  console.log(rows);
+});
+```
+This will make the customer-where.sql query look like this:
+
+```
+select * from customers where patient_id = '1' AND created_at > '2015-02-27 18:37:57';
+```
+
+### Currently acceptable Where Attributes
+
+Key | Description
+----|------------
+$lt | Less Than
+$lte | Less Than or Equal
+$gt | Greater Than
+$gte | Greater Than or Equal
+$ne  | Not Equal To
+
+## JSON Examples
+
+### Where
+#### where single equals:
+
+    {
+      "where": {"name":"foo2"}
+    }
+
+Returns all records where name equals "foo2"
+
+#### where multiple equals:
+
+    {
+      "where": {"name":"foo","description":"bar"}
+    }
+
+Returns all records where name equals "foo" and description equals "bar"
+
+#### where less than:
+
+    {
+      "where": {"id":{"$lt":"2"}}
+    }
+
+Returns all records where id is less than "2"
+
+#### where less than or equal to:
+
+    {
+      "where": {"id":{"$lte":"2"}}
+    }
+
+Returns all records where id is less than or equal to "2"
+
+#### where greater than:
+
+    {
+      "where": {"id":{"$gt":"2"}}
+    }
+
+Returns all records where id is greater than "2"
+
+#### where greater than or equal to:
+
+    {
+      "where": {"id":{"$gte":"2"}}
+    }
+
+Returns all records where id is greater than or equal to "2"
+
+#### where not equal to:
+
+    {
+      "where": {"name":{"$ne":"bar"}}
+    }
+
 ## Install
 
 ```

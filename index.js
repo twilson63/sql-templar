@@ -44,9 +44,33 @@ module.exports = function(config) {
       if (params && _(params).isObject() && !_(params).isArray()) {
         // assume ? in sql string
         // build where and replace ? with where
+
         params = [_(params).map(function(v, k) {
-          return k + " = '" + v.toString() + "'";
+
+          if(_.isObject(v)) {
+            var key = _.chain(v).keys().first().value();
+            var value = _.chain(v).values().first().value();
+            if (key === '$gt') {
+              return k + " > '" + value.toString() + "'";
+            }
+            else if (key === '$gte') {
+              return k + " >= '" + value.toString() + "'";
+            }
+            else if (key === '$lt') {
+              return k + " < '" + value.toString() + "'";
+            }
+            else if (key === '$lte') {
+              return k + " <= '" + value.toString() + "'";
+            }
+            else if (key === '$ne') {
+              return k + " != '" + value.toString() + "'";
+            }
+          }
+          else {
+            return k + " = '" + v.toString() + "'"; 
+          } 
         }).join(' AND ')];
+
         sql = templates[name].replace('?', params);
         conn.query(sql, handleResponse);
       } else if (params && _(params).isArray()) {
