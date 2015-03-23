@@ -70,7 +70,7 @@ select * from customers where ?;
 Then call st.exec like this:
 
 ``` javascript
-st.exec('customers-where', {patient_id: 1, created_at: {'$gt': '2015-02-27 18:37:57'}}, function(err, rows) {
+st.exec('customers-where', {'where': {patient_id: 1, created_at: {'$gt': '2015-02-27 18:37:57'}}}, function(err, rows) {
   if (err) { console.log(err); }
   console.log(rows);
 });
