@@ -20,7 +20,8 @@
   "readmeFilename": "readme.md",
   "dependencies": {
     "mysql": "~2.5.4",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "where2": "^1.0.0"
   },
   "gitHead": "36fce5e8985f1cbd78b41709e5ea2642c6c57049",
   "directories": {

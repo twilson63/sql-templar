@@ -3,7 +3,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var log = console.log;
 var ONE_MINUTE = 60000;
-
+var where2 = require('where2');
 var templates = {};
 
 module.exports = function(config) {
@@ -44,9 +44,7 @@ module.exports = function(config) {
       if (params && _(params).isObject() && !_(params).isArray()) {
         // assume ? in sql string
         // build where and replace ? with where
-        params = [_(params).map(function(v, k) {
-          return k + " = '" + v.toString() + "'";
-        }).join(' AND ')];
+        params = where2(params);
         sql = templates[name].replace('?', params);
         conn.query(sql, handleResponse);
       } else if (params && _(params).isArray()) {
