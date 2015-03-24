@@ -28,7 +28,7 @@
       </header>
       <section>
         <h1>
-<a name="sql-templar" class="anchor" href="#sql-templar"><span class="octicon octicon-link"></span></a>Sql Templar</h1>
+<a id="sql-templar" class="anchor" href="#sql-templar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sql Templar</h1>
 
 <p><a href="http://travis-ci.org/twilson63/sql-templar"><img src="https://secure.travis-ci.org/twilson63/sql-templar.png" alt="build status"></a></p>
 
@@ -37,85 +37,118 @@
 <p>Sql-Templar is a small abstraction over node-mysql that provides a similar api to that of rendering html templates, but for sql files.  This gets the sql files out of concatenated strings and allows you to place them in a directory much like you place you jade or ejs templates for html.  Here is some sample usage code:</p>
 
 <h1>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>/sql/customers.sql</p>
 
-<div class="highlight highlight-sql"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">customers</span> <span class="k">where</span> <span class="n">name</span> <span class="k">like</span> <span class="o">?</span>
-</pre></div>
+<div class="highlight highlight-sql"><pre><span class="pl-k">select</span> <span class="pl-k">*</span> <span class="pl-k">from</span> customers <span class="pl-k">where</span> name <span class="pl-k">like</span> ?</pre></div>
 
 <p>/index.js</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">st</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'sql-templar'</span><span class="p">)({</span>
-  <span class="nx">templates</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">dir</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/sql'</span><span class="p">,</span>
-    <span class="nx">ext</span><span class="o">:</span> <span class="s1">'sql'</span>
-  <span class="p">},</span> <span class="nx">db</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">host</span><span class="o">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
-    <span class="nx">port</span><span class="o">:</span> <span class="mi">3306</span><span class="p">,</span>
-    <span class="nx">database</span><span class="o">:</span> <span class="s1">'test'</span><span class="p">,</span>
-    <span class="nx">user</span><span class="o">:</span> <span class="s1">'root'</span>
-  <span class="p">}</span>
-<span class="p">});</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> st <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>sql-templar<span class="pl-pds">'</span></span>)({
+  templates<span class="pl-k">:</span> {
+    dir<span class="pl-k">:</span> <span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/sql<span class="pl-pds">'</span></span>,
+    ext<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>sql<span class="pl-pds">'</span></span>
+  }, db<span class="pl-k">:</span> {
+    host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>localhost<span class="pl-pds">'</span></span>,
+    port<span class="pl-k">:</span> <span class="pl-c1">3306</span>,
+    database<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>test<span class="pl-pds">'</span></span>,
+    user<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>root<span class="pl-pds">'</span></span>
+  }
+});
 
-<span class="nx">st</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="s1">'customers'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'A%'</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">}</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">rows</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+st.<span class="pl-c1">exec</span>(<span class="pl-s"><span class="pl-pds">'</span>customers<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>A%<span class="pl-pds">'</span></span>], <span class="pl-k">function</span>(<span class="pl-smi">err</span>, <span class="pl-smi">rows</span>) {
+  <span class="pl-k">if</span> (err) { <span class="pl-en">console</span><span class="pl-c1">.log</span>(err); }
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(rows);
+});</pre></div>
 
-<div class="highlight highlight-sh"><pre>node index.js
-</pre></div>
+<div class="highlight highlight-sh"><pre>node index.js</pre></div>
 
 <p>Just like you use jade or ejs templates with sql-templar you can manage your sql in template files and utilize all of the conventions and sugar provided by node-mysql to perform proper escaping, etc.  See the node-mysql readme for more details on the pattern matching.</p>
 
 <h3>
-<a name="example-with-to-build-where-clause-with-sql-templar" class="anchor" href="#example-with-to-build-where-clause-with-sql-templar"><span class="octicon octicon-link"></span></a>Example with to build where clause with sql templar</h3>
+<a id="example-with-to-build-where-clause-with-sql-templar" class="anchor" href="#example-with-to-build-where-clause-with-sql-templar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example with to build where clause with sql templar</h3>
 
 <p>/sql/customers-where.sql</p>
 
-<div class="highlight highlight-sql"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">customers</span> <span class="k">where</span> <span class="o">?</span><span class="p">;</span>
-</pre></div>
+<div class="highlight highlight-sql"><pre><span class="pl-k">select</span> <span class="pl-k">*</span> <span class="pl-k">from</span> customers <span class="pl-k">where</span> ?;</pre></div>
 
 <p>Then call st.exec like this:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">st</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="s1">'customers-where'</span><span class="p">,</span> <span class="p">{</span><span class="nx">patient_id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">priority</span><span class="o">:</span> <span class="s1">'Beep'</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">}</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">rows</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>st.<span class="pl-c1">exec</span>(<span class="pl-s"><span class="pl-pds">'</span>customers-where<span class="pl-pds">'</span></span>, {patient_id<span class="pl-k">:</span> <span class="pl-c1">1</span>, priority<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Beep<span class="pl-pds">'</span></span>}, <span class="pl-k">function</span>(<span class="pl-smi">err</span>, <span class="pl-smi">rows</span>) {
+  <span class="pl-k">if</span> (err) { <span class="pl-en">console</span><span class="pl-c1">.log</span>(err); }
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(rows);
+});</pre></div>
 
 <p>This will make the customer-where.sql query look like this:</p>
 
 <pre><code>select * from customers where patient_id = '1' AND priority = 'Beep';
 </code></pre>
 
+<h3>
+<a id="example-of-how-to-build-a-more-complex-where-clause" class="anchor" href="#example-of-how-to-build-a-more-complex-where-clause" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example of how to build a more complex where clause</h3>
+
+<h4>
+<a id="for-a-list-of-which-where-attributes-are-currently-available-visit-where2" class="anchor" href="#for-a-list-of-which-where-attributes-are-currently-available-visit-where2" aria-hidden="true"><span class="octicon octicon-link"></span></a>For a list of which where attributes are currently available, visit <a href="http://github.com/twilson63/where2">Where2</a>
+</h4>
+
+<p>/sql/customers-where.sql</p>
+
+<div class="highlight highlight-sql"><pre><span class="pl-k">select</span> <span class="pl-k">*</span> <span class="pl-k">from</span> customers <span class="pl-k">where</span> ?;</pre></div>
+
+<p>Then call st.exec like this:</p>
+
+<div class="highlight highlight-javascript"><pre>
+st.<span class="pl-c1">exec</span>(<span class="pl-s"><span class="pl-pds">'</span>customers-where<span class="pl-pds">'</span></span>, {patient_id<span class="pl-k">:</span> <span class="pl-c1">1</span>, created_at<span class="pl-k">:</span> {<span class="pl-s"><span class="pl-pds">'</span>$gt<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>2015-02-27 18:37:57<span class="pl-pds">'</span></span>}}, <span class="pl-k">function</span>(<span class="pl-smi">err</span>, <span class="pl-smi">rows</span>) {
+  <span class="pl-k">if</span> (err) { <span class="pl-en">console</span><span class="pl-c1">.log</span>(err); }
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(rows);
+});</pre></div>
+
+<p>This will make the customer-where.sql query look like this:</p>
+
+<pre><code>select * from customers where patient_id = '1' AND created_at &gt; '2015-02-27 18:37:57';
+</code></pre>
+
 <h2>
-<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
 
 <pre><code>npm install sql-templar
 </code></pre>
 
 <h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <p>Contributions are welcome, the goal of the project is to simply provide a template like engine on top of node-mysql, any contributions that keep within the context of this goal will be merged.</p>
 
 <h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>LICENSE</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h2>
 
 <p>MIT</p>
 
 <h2>
-<a name="roadmap" class="anchor" href="#roadmap"><span class="octicon octicon-link"></span></a>ROADMAP</h2>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>ROADMAP</h2>
 
 <ul>
 <li>Would like to offer support for other SQL Drivers, SQLLite, Postgres, etc.</li>
-</ul><h2>
-<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks</h2>
+</ul>
+
+<h2>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thanks</h2>
 
 <p>Thanks to Felixge and all the node-mysql contributors
 Thanks to Ryan Dahl, Issacs and all the NodeJS Contributors and Community!</p>
+
+<h2>
+<a id="collaborators" class="anchor" href="#collaborators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Collaborators</h2>
+
+<ul>
+<li>Tom Wilson <a href="https://github.com/twilson63">twilson63</a>
+</li>
+<li>Joel Villahermosa <a href="https://github.com/joelv">joelv</a>
+</li>
+<li>Kevin Collins <a href="https://github.com/kevincol54">kevincol54</a>
+</li>
+</ul>
 
 <p>Enjoy!</p>
       </section>
