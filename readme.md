@@ -108,4 +108,12 @@ MIT
 Thanks to Felixge and all the node-mysql contributors
 Thanks to Ryan Dahl, Issacs and all the NodeJS Contributors and Community!
 
+## Collaborators
+
+* Tom Wilson [twilson63](https://github.com/twilson63)
+* Joel Villahermosa [joelv](https://github.com/joelv)
+* Kevin Collins [kevincol54](https://github.com/kevincol54)
+
+
+
 Enjoy!
