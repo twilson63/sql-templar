@@ -61,9 +61,9 @@ This will make the customer-where.sql query look like this:
 select * from customers where patient_id = '1' AND priority = 'Beep';
 ```
 
-### Example showing how to build a more complex sql statement
+### Example of how to build a more complex where clause
 
-#### To see detailed list of which where attributes are currently available, visit [Where2](http://github.com/twilson63/where2)
+#### For a list of which where attributes are currently available, visit [Where2](http://github.com/twilson63/where2)
 
 /sql/customers-where.sql
 ``` sql
