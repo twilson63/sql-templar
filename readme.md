@@ -61,6 +61,30 @@ This will make the customer-where.sql query look like this:
 select * from customers where patient_id = '1' AND priority = 'Beep';
 ```
 
+### Example of how to build a more complex where clause
+
+#### For a list of which where attributes are currently available, visit [Where2](http://github.com/twilson63/where2)
+
+/sql/customers-where.sql
+``` sql
+select * from customers where ?;
+```
+Then call st.exec like this:
+
+``` javascript
+
+st.exec('customers-where', {patient_id: 1, created_at: {'$gt': '2015-02-27 18:37:57'}}, function(err, rows) {
+  if (err) { console.log(err); }
+  console.log(rows);
+});
+```
+This will make the customer-where.sql query look like this:
+
+```
+select * from customers where patient_id = '1' AND created_at > '2015-02-27 18:37:57';
+```
+
+
 ## Install
 
 ```
