@@ -83,7 +83,36 @@ This will make the customer-where.sql query look like this:
 ```
 select * from customers where patient_id = '1' AND created_at > '2015-02-27 18:37:57';
 ```
+## Optional Config
 
+This module leverages connection pooling from the [node-mysql library](https://github.com/felixge/node-mysql). You can pass in the pool through the config object 
+so that you are free to set any of the options associated with the pool and also have many sql templar instances and just pass in one connection pool.
+
+Ex
+```
+var mysql = require('mysql');
+var sqlTemplar = require('sqlTemplar')
+var pool = mysql.createPool({
+  host: 'localhost',
+  port: 4406,
+  database: 'test',
+  user: 'root',
+  ssl: {
+    ca: '..',
+    pem: '..',
+    key:'..',
+  },
+  acquireTimeout: 20000
+});
+
+var st = sqlTemplar({
+  templates: {
+    dir: __dirname + '/sql',
+    ext: 'sql'
+  }, pool: pool 
+});
+
+```
 
 ## Install
 

@@ -28,7 +28,12 @@ module.exports = function(config) {
     templates[file.split('.').shift()] = fs.readFileSync(dir + '/' + file).toString();
   });
 
-  var pool = mysql.createPool(config.db);
+  var pool;
+  if(config.pool) {
+    pool = config.pool;
+  } else {
+    pool = mysql.createPool(config.db);
+  }
 
   // perform query
   var exec = function(name, params, cb) {
