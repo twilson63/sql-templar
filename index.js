@@ -7,7 +7,12 @@ var where2 = require('where2');
 var templates = {};
 
 module.exports = function(config) {
-  if (!config.db) { throw new Error('database configuration info is required!'); }
+  if (!config.db) { 
+    if (!config.pool) {
+      throw new Error('database configuration info is required!'); 
+    }
+  }
+
   var dir = './sql';
   var ext = 'sql';
   var timeout = ONE_MINUTE;

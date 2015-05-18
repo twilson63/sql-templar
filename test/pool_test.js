@@ -35,7 +35,6 @@ test('config with pool', function(t) {
     end: function() {}
   };  
   var st = sqlTemplar({ 
-    db: {}, 
     templates: {
       dir: __dirname + '/sql',
       ext: 'sql'
@@ -46,4 +45,19 @@ test('config with pool', function(t) {
   st.exec('foo', [], function() {});
   t.ok(getConnectionStub.called, 'getConnnection should have been called');
   t.end(); 
+});
+
+test('should throw an error with no db or pool passed into the config', function(t) {
+  //throws(fn, [expectedError], message, extra)
+  var callSt = function() {
+    sqlTemplar({ 
+      templates: {
+        dir: __dirname + '/sql',
+        ext: 'sql'
+      }
+    });   
+  };
+  t.throws(callSt, new Error('database configuration info is required!'), 'should throw error'); 
+    
+  t.end();
 });
