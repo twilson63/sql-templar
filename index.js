@@ -7,7 +7,12 @@ var where2 = require('where2');
 var templates = {};
 
 module.exports = function(config) {
-  if (!config.db) { throw new Error('database configuration info is required!'); }
+  if (!config.db) { 
+    if (!config.pool) {
+      throw new Error('database configuration info is required!'); 
+    }
+  }
+
   var dir = './sql';
   var ext = 'sql';
   var timeout = ONE_MINUTE;
@@ -28,7 +33,12 @@ module.exports = function(config) {
     templates[file.split('.').shift()] = fs.readFileSync(dir + '/' + file).toString();
   });
 
-  var pool = mysql.createPool(config.db);
+  var pool;
+  if(config.pool) {
+    pool = config.pool;
+  } else {
+    pool = mysql.createPool(config.db);
+  }
 
   // perform query
   var exec = function(name, params, cb) {
