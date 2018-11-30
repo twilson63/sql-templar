@@ -7,7 +7,7 @@ An alternative crusade to the knights of ORM Land.
 Sql-Templar is a small abstraction over node-mysql that provides a similar api to that of rendering html templates, but for sql files.  This gets the sql files out of concatenated strings and allows you to place them in a directory much like you place you jade or ejs templates for html.  Here is some sample usage code:
 
 # Requirements
-- node 4.* > 
+- node  > 4.*
 # Usage
 
 /sql/customers.sql
