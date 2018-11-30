@@ -56,6 +56,7 @@ module.exports = function(config) {
         // build where and replace ? with where
         params = where2(params);
         sql = templates[name].replace('?', params);
+        console.log(sql);
         conn.query(sql, handleResponse);
       } else if (params && _(params).isArray()) {
         conn.query(templates[name], params, handleResponse);
