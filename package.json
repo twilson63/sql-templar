@@ -19,7 +19,7 @@
   "license": "MIT",
   "readmeFilename": "readme.md",
   "dependencies": {
-    "mysql": "~2.5.4",
+    "mysql": "^2.16.0",
     "underscore": "^1.7.0",
     "where2": "^1.0.3"
   },
@@ -31,6 +31,6 @@
     "parse-db-url": "0.0.0",
     "rewire": "^2.0.1",
     "sinon": "^1.14.1",
-    "tap": "^0.4.11"
+    "tap": "^12.1.0"
   }
 }
